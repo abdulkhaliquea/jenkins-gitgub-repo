@@ -1,21 +1,52 @@
 pipeline {
     agent any
 
+    environment {
+        AWS_ACCESS_KEY_ID     = credentials('aws-access-key')
+        AWS_SECRET_ACCESS_KEY = credentials('aws-secret-key')
+    }
+
     stages {
-        stage('Build') {
+        stage('Checkout') {
             steps {
-                echo 'Building..'
-                sh "ls -ltr"
+                checkout scm
             }
         }
-        stage('Test') {
+
+        stage('Terraform Init') {
             steps {
-                echo 'Testing..'
+                sh '''
+                terraform init \
+                  -backend-config="bucket=myuniquebucketnew" \
+                  -backend-config="key=infrastructure/terraform.tfstate" \
+                  -backend-config="region=us-east-1"
+                '''
             }
         }
-        stage('Deploy') {
+
+        stage('Terraform Plan') {
             steps {
-                echo 'Deploying....'
+                sh 'terraform plan -out=tfplan'
+            }
+        }
+
+        stage('Approval Gate') {
+            steps {
+                // Wrap the input step in a timeout so it doesn't consume an executor indefinitely
+                timeout(time: 1, unit: 'HOURS') {
+                    script {
+                        // This pauses the pipeline and prompts the user
+                        input message: 'Review the terraform plan. Do you want to apply these changes?', 
+                              ok: 'Approve and Apply'
+                    }
+                }
+            }
+        }
+
+        stage('Terraform Apply') {
+            steps {
+                // Apply the exact plan that was reviewed
+                sh 'terraform apply -auto-approve tfplan'
             }
         }
     }
