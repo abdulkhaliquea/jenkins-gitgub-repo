@@ -1,0 +1,16 @@
+# Ignore executables
+*.exe
+
+# Local .terraform directories
+**/.terraform/*
+
+# .tfstate files (NEVER commit state files to Git)
+*.tfstate
+*.tfstate.*
+
+# Exclude tfvars containing sensitive data
+*.tfvars
+*.tfvars.json
+
+# Crash log files
+crash.log
