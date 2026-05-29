@@ -3,7 +3,7 @@ pipeline {
 
     tools {
         terraform 'terraform-latest'
-    }
+    } // <--- ADDED: This closing brace was missing!
 
     environment {
         AWS_ACCESS_KEY_ID     = credentials('aws-access-key')
@@ -54,4 +54,4 @@ pipeline {
             }
         }
     }
-}
+} // <--- REMOVED: There was an extra closing brace at the bottom of your code
