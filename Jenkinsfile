@@ -5,11 +5,12 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
+                sh "ls -ltr"
             }
         }
         stage('Test') {
             steps {
-                echo 'UAT..'
+                echo 'Testing..'
             }
         }
         stage('Deploy') {
