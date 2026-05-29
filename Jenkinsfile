@@ -21,9 +21,9 @@ pipeline {
             steps {
                 sh '''
                 terraform init \
-                  -backend-config="bucket=myuniquebucketnew" \
+                  -backend-config="bucket=novertisestatefile" \
                   -backend-config="key=infrastructure/terraform.tfstate" \
-                  -backend-config="region=us-east-1"
+                  -backend-config="region=ap-northeast-1"
                 '''
             }
         }
