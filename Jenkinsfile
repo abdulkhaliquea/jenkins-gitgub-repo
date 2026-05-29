@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        terraform 'terraform-latest'
+        terraform 'terraform-linux'
     } // <--- ADDED: This closing brace was missing!
 
     environment {
