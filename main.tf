@@ -1,5 +1,6 @@
 terraform {
   required_version = ">= 1.0.0"
+  backend "s3" {}
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -14,7 +15,7 @@ provider "aws" {
 
 # The S3 Bucket Core Resource
 resource "aws_s3_bucket" "my_bucket" {
-  bucket        = "myuniquebucketnew"
+  bucket        = "myuniquebucketuniq"
   force_destroy = false
 
   tags = {
